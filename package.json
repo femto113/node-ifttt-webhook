@@ -1,0 +1,17 @@
+{
+  "name": "ifttt-webhook",
+  "version": "0.0.0",
+  "description": "a Wordpress XML-RPC to webhook proxy server for ifttt",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "test": "node test.js" },
+  "repository": { "type": "git", "url": "https://github.com/femto113/node-ifttt-webhook.git" },
+  "keywords": [ "ifttt", "webhook" ],
+  "author": "Ken Woodruff <ken.woodruff@gmail.com>",
+  "license": "MIT",
+  "dependencies" : {
+      "xmlrpc": "*"
+  },
+  "devDependencies" : {
+      "wordpress": "*"
+  }
+}
