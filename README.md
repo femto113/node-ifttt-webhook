@@ -29,4 +29,4 @@ the original, which is licensed under MIT (as are the dependencies).
 
 Obviously entirely derivative of the original PHP version by [captn3m0](https://github.com/captn3m0), but also 
 wouldn't have been nearly so easy to build without the excellent [node-xmlrpc](https://github.com/baalexander/node-xmlrpc)
-nor test without [node-wordpress](http/scottgonzalez/node-wordpress).
+nor test without [node-wordpress](http://github.com/scottgonzalez/node-wordpress).
