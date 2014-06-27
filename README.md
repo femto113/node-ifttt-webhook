@@ -20,6 +20,8 @@ but ifttt doesn't seem to like port numbers in the blog URL (YMMV).  Once runnin
 you should be able to activate the WordPress channel and create recipes following
 the same instructions as for the PHP version.
 
+Put the URL for your webhook into IFTTT's "tags" field.
+
 ## License
 
 I don't claim any copyright to this code since it's such a close adaptation of
