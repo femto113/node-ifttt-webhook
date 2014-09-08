@@ -1,7 +1,8 @@
 var http = require("http"),
     url = require("url"),
     Deserializer = require("xmlrpc/lib/deserializer"),
-    Serializer = require("xmlrpc/lib/serializer");
+    Serializer = require("xmlrpc/lib/serializer"),
+    querystring = require("querystring");
 
 var server = http.createServer(function (request, response) {
   var deserializer = new Deserializer();
@@ -31,9 +32,17 @@ var server = http.createServer(function (request, response) {
           var params = params.shift();
           var options = url.parse(params.mt_keywords.shift());
           options.method = "POST"; // TODO: allow this to be passed in
-          // TODO: pass other stuff from title/description/categories as args to the hook ala ifttt-webhook
+          // pass other stuff from title/description/categories as args to the hook ala ifttt-webhook
+          var post_data = querystring.stringify(params);
+          options.headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': post_data.length
+          };
           // NOTE: unlike the original PHP implementation we fire the hook async, so IFTTT will immediately get a response
-          http.request(options, function (response) { console.log("XMLRPC %s -> %d", options.href, response.statusCode); }).end();
+          var post_req = http.request(options, function (response) { console.log("XMLRPC %s -> %d", options.href, response.statusCode); });
+          post_req.write(post_data);
+          post_req.end();
+
           xml = Serializer.serializeMethodResponse(Date.now().toString(32)); // a "postid", presumably ignored by IFTTT
           break;
         default:
