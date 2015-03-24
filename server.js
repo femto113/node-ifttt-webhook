@@ -2,14 +2,15 @@ var http = require("http"),
     url = require("url"),
     Deserializer = require("xmlrpc/lib/deserializer"),
     Serializer = require("xmlrpc/lib/serializer"),
-    querystring = require("querystring");
+    querystring = require("querystring"),
+    debug = require("debug")(require("./package.json").name);
 
 var server = http.createServer(function (request, response) {
   var deserializer = new Deserializer();
   deserializer.deserializeMethodCall(request, function(error, methodName, params) {
     var xml = null;
     if (!error) {
-      console.log("deserialized: %s(%s)", methodName, JSON.stringify(params));
+      debug("deserialized: %s(%s)", methodName, JSON.stringify(params));
       var statusCode = 200, xml = null;
       switch (methodName) {
         case 'mt.supportedMethods': // codex.wordpress.org/XML-RPC_MovableType_API#mt.supportedMethods
@@ -39,7 +40,9 @@ var server = http.createServer(function (request, response) {
             'Content-Length': post_data.length
           };
           // NOTE: unlike the original PHP implementation we fire the hook async, so IFTTT will immediately get a response
-          var post_req = http.request(options, function (response) { console.log("XMLRPC %s -> %d", options.href, response.statusCode); });
+          var post_req = http.request(options, function (response) {
+            debug("XMLRPC %s -> %d", options.href, response.statusCode);
+          });
           post_req.write(post_data);
           post_req.end();
 
@@ -59,7 +62,7 @@ var server = http.createServer(function (request, response) {
 });
 
 server.once("listening", function () {
-  console.log("listening on port %d", server.address().port);
+  debug("listening on port %d", server.address().port);
 });
 
 server.listen(process.env.PORT || 80);
